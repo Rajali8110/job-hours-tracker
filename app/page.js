@@ -305,6 +305,7 @@ export default function Home() {
         entries={entries}
         holidays={settings.holidays}
         includeWeekends={settings.includeWeekends}
+        hoursPerDay={settings.hoursPerDay}
         onDayClick={handleDayClick}
       />
 

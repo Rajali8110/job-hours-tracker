@@ -17,6 +17,7 @@ export default function Calendar({
   entries,
   holidays,
   includeWeekends,
+  hoursPerDay,
   onDayClick,
 }) {
   const daysInMonth = getDaysInMonth(year, month);
@@ -76,8 +77,14 @@ export default function Calendar({
     const week = weeks[w];
     let weekTotal = 0;
     for (const cell of week) {
-      if (!cell.empty && cell.hours) {
-        weekTotal += cell.hours;
+      if (!cell.empty) {
+        if (cell.hours) {
+          // Manually entered hours (including vacation days with explicit hours)
+          weekTotal += cell.hours;
+        } else if (cell.holiday && !cell.weekend) {
+          // Vacation/sick/holiday day marked as non-working — count as hoursPerDay
+          weekTotal += hoursPerDay || 0;
+        }
       }
       gridCells.push(cell);
     }
